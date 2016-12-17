@@ -281,20 +281,20 @@ var minute = 30;    // 30分钟
 
 
 window.onload = function () {
-    Papa.parse("danxuan.csv", {
+    Papa.parse("csv/danxuan.csv", {
         download: true,
         complete: function (results) {
-            console.log(results);
+            //console.log(results);
             danxuanItemsAll = results.data;
-            Papa.parse("duoxuan.csv", {
+            Papa.parse("csv/duoxuan.csv", {
                 download: true,
                 complete: function (results) {
-                    console.log(results);
+                    //console.log(results);
                     duoxuanItemsAll = results.data;
-                    Papa.parse("panduan.csv", {
+                    Papa.parse("csv/panduan.csv", {
                         download: true,
                         complete: function (results) {
-                            console.log(results);
+                            //console.log(results);
                             panduanItemsAll = results.data;
                             page_main();
                         }
