@@ -14,10 +14,10 @@ var page_main = function (num, danxuanItemsAll, duoxuanItemsAll, panduanItemsAll
             var result = "<div>" +
                 "<p><span>" + index + "<span><span>" + l[1] + "</span></p>" +
                 "<p>" +
-                "<label><input name='" + l[0] + "' type='radio' value='A' />" + l[2] + "</label>" +
-                "<label><input name='" + l[0] + "' type='radio' value='B' />" + l[3] + "</label>" +
-                "<label><input name='" + l[0] + "' type='radio' value='C' />" + l[4] + "</label>" +
-                "<label><input name='" + l[0] + "' type='radio' value='D' />" + l[5] + "</label>" +
+                "<label><input name='" + l[0] + "' type='radio' value='A' />" + l[2] + "</label><br/>" +
+                "<label><input name='" + l[0] + "' type='radio' value='B' />" + l[3] + "</label><br/>" +
+                "<label><input name='" + l[0] + "' type='radio' value='C' />" + l[4] + "</label><br/>" +
+                "<label><input name='" + l[0] + "' type='radio' value='D' />" + l[5] + "</label><br/>" +
                 "</p>" +
                 "</div>";
             return result;
@@ -28,10 +28,10 @@ var page_main = function (num, danxuanItemsAll, duoxuanItemsAll, panduanItemsAll
             var result = "<div>" +
                 "<p><span>" + index + "<span><span>" + l[1] + "</span></p>" +
                 "<p>" +
-                "<label><input name='" + l[0] + "' type='checkbox' value='A' />" + l[2] + "</label>" +
-                "<label><input name='" + l[0] + "' type='checkbox' value='B' />" + l[3] + "</label>" +
-                "<label><input name='" + l[0] + "' type='checkbox' value='C' />" + l[4] + "</label>" +
-                "<label><input name='" + l[0] + "' type='checkbox' value='D' />" + l[5] + "</label>" +
+                "<label><input name='" + l[0] + "' type='checkbox' value='A' />" + l[2] + "</label><br/>" +
+                "<label><input name='" + l[0] + "' type='checkbox' value='B' />" + l[3] + "</label><br/>" +
+                "<label><input name='" + l[0] + "' type='checkbox' value='C' />" + l[4] + "</label><br/>" +
+                "<label><input name='" + l[0] + "' type='checkbox' value='D' />" + l[5] + "</label><br/>" +
                 "</p>" +
                 "</div>";
             return result;
@@ -41,8 +41,8 @@ var page_main = function (num, danxuanItemsAll, duoxuanItemsAll, panduanItemsAll
             var result = "<div>" +
                 "<p><span>" + index + "<span><span>" + l[1] + "</span></p>" +
                 "<p>" +
-                "<label><input name='" + l[0] + "' type='radio' value='错' />错</label>" +
-                "<label><input name='" + l[0] + "' type='radio' value='对' />对</label>" +
+                "<label><input name='" + l[0] + "' type='radio' value='错' />错</label><br/>" +
+                "<label><input name='" + l[0] + "' type='radio' value='对' />对</label><br/>" +
                 "</p>" +
                 "</div>";
             return result;
@@ -223,7 +223,7 @@ var page_main = function (num, danxuanItemsAll, duoxuanItemsAll, panduanItemsAll
 
 var page_result = function (score) {
     var getView = function (score) {
-        var result = "<div><p>得分:" + score + "</p><p><button id='btn'>再来一次</button></p></div>"
+        var result = "<div><p>得分:" + score + "</p><p><button id='btn'>再来一次</button></p></div>";
         return result;
     };
 
@@ -248,7 +248,7 @@ window.onload = function () {
     var panduanItemsAll = panduan_csv.responseText.split('\n');
 
 
-    var num = 1;
+    var num = 5;
 
 
     page_main(num, danxuanItemsAll, duoxuanItemsAll, panduanItemsAll);
