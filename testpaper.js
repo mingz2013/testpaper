@@ -130,11 +130,16 @@ var page_main = function (num, danxuanItemsAll, duoxuanItemsAll, panduanItemsAll
                 var l = item.split(',');
                 var number = l[0];
                 var right = l[6];
-                var val = document.getElementsByName(number).valueOf();
+                var val = $("input[name=" + number + "]:checked").val();
+                console.log(right);
+                console.log(val);
+                console.log(typeof right);
+                console.log(typeof val);
                 if (val == right) {
                     score += 2;
                 }
             });
+            //console.log(score);
             return score;
         };
         var getDuoxuanScore = function () {
@@ -143,11 +148,14 @@ var page_main = function (num, danxuanItemsAll, duoxuanItemsAll, panduanItemsAll
                 var l = item.split(',');
                 var number = l[0];
                 var right = l[6];
-                var val = document.getElementsByName(number).valueOf();
-                if (right.indexOf(val) > -1) {
+                var val = $("input[name=" + number + "]:checked").val();
+                //console.log(right);
+                //console.log(val);
+                if (right && right.indexOf(val) > -1) {
                     score += 2;
                 }
             });
+            //console.log(score);
             return score;
         };
         var getPanduanScore = function () {
@@ -156,15 +164,23 @@ var page_main = function (num, danxuanItemsAll, duoxuanItemsAll, panduanItemsAll
                 var l = item.split(',');
                 var number = l[0];
                 var right = l[2];
-                var val = document.getElementsByName(number).valueOf();
+                var val = $("input[name=" + number + "]:checked").val();
+                //console.log(right);
+                //console.log(val);
                 if (val == right) {
                     score += 1;
                 }
             });
+
             return score;
         };
-
-        return getDanxuanScore() + getDuoxuanScore() + getPanduanScore();
+        var danxuanScore = getDanxuanScore();
+        var duoxuanScore = getDuoxuanScore();
+        var panduanScore = getPanduanScore();
+        console.log(danxuanScore);
+        console.log(duoxuanScore);
+        console.log(panduanScore);
+        return danxuanScore + duoxuanScore + panduanScore;
     };
 
 
@@ -194,7 +210,7 @@ var page_result = function (score) {
     };
 
     var init = function () {
-        document.getElementById('main').innerHTML = getView();
+        document.getElementById('main').innerHTML = getView(score);
 
         document.getElementById('btn').onclick = function () {
             location.reload();
@@ -214,7 +230,7 @@ window.onload = function () {
     var panduanItemsAll = panduan_csv.responseText.split('\n');
 
 
-    var num = 10;
+    var num = 1;
 
 
     page_main(num, danxuanItemsAll, duoxuanItemsAll, panduanItemsAll);
