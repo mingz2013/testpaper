@@ -2,8 +2,12 @@
  * Created by zhaojm on 17/12/2016.
  */
 
-var page_main = function (main, num) {
-    var getRandomArray = function (arr, num) {
+
+
+
+var page_main = function (main, num, danxuanItemsAll, duoxuanItemsAll, panduanItemsAll) {
+
+    var getRandomArray = function (arr) {
         var len = arr.length;
         if (len < num) {
             return arr;
@@ -23,7 +27,6 @@ var page_main = function (main, num) {
         });
         return result;
     };
-
 
     var getDanxuanItemView = function (item, index) {
         var l = item.split(',');
@@ -64,31 +67,25 @@ var page_main = function (main, num) {
         return result;
     };
 
-    var getDanxuanListView = function () {
+    var getDanxuanListView = function (items) {
         var result = "<h2>单选  （20个 每个两分）</h2>";
-        var csv = $.ajax({url: "danxuan.csv", async: false});
-        var items = csv.responseText.split('\n');
-        items = getRandomArray(items, num);
+
         items.forEach(function (item, index) {
             result += getDanxuanItemView(item, index);
         });
         return result;
     };
-    var getDuoxuanListView = function () {
+    var getDuoxuanListView = function (items) {
         var result = "<h2>多选（20个 每个两分）</h2>";
-        var csv = $.ajax({url: "duoxuan.csv", async: false});
-        var items = csv.responseText.split('\n');
-        items = getRandomArray(items, num);
+
         items.forEach(function (item, index) {
             result += getDuoxuanItemView(item, index);
         });
         return result;
     };
-    var getPanduanListView = function () {
+    var getPanduanListView = function (items) {
         var result = "<h2>判断（20个 每个一分）</h2>";
-        var csv = $.ajax({url: "panduan.csv", async: false});
-        var items = csv.responseText.split('\n');
-        items = getRandomArray(items, num);
+
         items.forEach(function (item, index) {
             result += getPanduanItemView(item, index);
         });
@@ -97,9 +94,9 @@ var page_main = function (main, num) {
 
     var getLeftView = function () {
         var result = "<div>";
-        result += getDanxuanListView();
-        result += getDuoxuanListView();
-        result += getPanduanListView();
+        result += getDanxuanListView(danxuanItems);
+        result += getDuoxuanListView(duoxuanItems);
+        result += getPanduanListView(panduanItems);
         result += "</div>";
         return result;
     };
@@ -117,17 +114,40 @@ var page_main = function (main, num) {
         return result;
     };
 
-    main.innerHTML = getView();
+
+    var randomData = function () {
+        danxuanItems = getRandomArray(danxuanItemsAll);
+        duoxuanItems = getRandomArray(duoxuanItemsAll);
+        panduanItems = getRandomArray(panduanItemsAll);
+    };
+
+
+    var init = function () {
+        randomData();
+        main.innerHTML = getView();
+    };
+
+    var danxuanItems, duoxuanItems, panduanItems = [];
+    init();
+
 };
 
 
 window.onload = function () {
 
+    var danxuan_csv = $.ajax({url: "danxuan.csv", async: false});
+    var duoxuan_csv = $.ajax({url: "duoxuan.csv", async: false});
+    var panduan_csv = $.ajax({url: "panduan.csv", async: false});
+    var danxuanItemsAll = danxuan_csv.responseText.split('\n');
+    var duoxuanItemsAll = duoxuan_csv.responseText.split('\n');
+    var panduanItemsAll = panduan_csv.responseText.split('\n');
+
+
     var num = 10;
 
     var main = document.getElementById('main');
 
-    page_main(main, num);
+    page_main(main, num, danxuanItemsAll, duoxuanItemsAll, panduanItemsAll);
 
 
 };
