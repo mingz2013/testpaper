@@ -131,11 +131,11 @@ var page_main = function (num, danxuanItemsAll, duoxuanItemsAll, panduanItemsAll
                 var number = l[0];
                 var right = l[6];
                 var val = $("input[name=" + number + "]:checked").val();
-                console.log(right);
-                console.log(val);
-                console.log(typeof right);
-                console.log(typeof val);
-                if (val == right) {
+                //console.log(right);
+                //console.log(val);
+                //console.log(typeof right);
+                //console.log(typeof val);
+                if (val && (val.trim() == right.trim())) {
                     score += 2;
                 }
             });
@@ -144,41 +144,59 @@ var page_main = function (num, danxuanItemsAll, duoxuanItemsAll, panduanItemsAll
         };
         var getDuoxuanScore = function () {
             var score = 0;
-            danxuanItems.forEach(function (item) {
+            duoxuanItems.forEach(function (item) {
                 var l = item.split(',');
                 var number = l[0];
                 var right = l[6];
-                var val = $("input[name=" + number + "]:checked").val();
                 //console.log(right);
-                //console.log(val);
-                if (right && right.indexOf(val) > -1) {
-                    score += 2;
+                var checkboxs = document.getElementsByName(number);
+                var c_arr = [];
+                for (var i = 0; i < checkboxs.length; i++) {
+                    if (checkboxs[i].checked == true) {
+                        c_arr.push(checkboxs[i].value);
+                    }
                 }
+                console.log(c_arr);
+                if (right.length == c_arr.length) {
+                    var isRight = true;
+                    for (var i = 0; i < right.length; i++) {
+                        var c = right[i];
+                        if (c_arr.indexOf(c) == -1) {
+                            isRight = false;
+                        }
+                    }
+                    if (isRight) {
+                        score += 2;
+                    }
+                }
+
             });
             //console.log(score);
             return score;
         };
         var getPanduanScore = function () {
             var score = 0;
-            danxuanItems.forEach(function (item) {
+            panduanItems.forEach(function (item) {
                 var l = item.split(',');
                 var number = l[0];
                 var right = l[2];
                 var val = $("input[name=" + number + "]:checked").val();
-                //console.log(right);
-                //console.log(val);
-                if (val == right) {
-                    score += 1;
+                console.log(right);
+                console.log(val);
+                //console.log(typeof right);
+                //console.log(typeof val);
+                if (val && (val.trim() == right.trim())) {
+                    score += 2;
                 }
             });
-
+            //console.log(score);
             return score;
         };
         var danxuanScore = getDanxuanScore();
         var duoxuanScore = getDuoxuanScore();
         var panduanScore = getPanduanScore();
-        console.log(danxuanScore);
-        console.log(duoxuanScore);
+        //console.log(danxuanScore);
+        //console.log(duoxuanScore);
         console.log(panduanScore);
         return danxuanScore + duoxuanScore + panduanScore;
     };
