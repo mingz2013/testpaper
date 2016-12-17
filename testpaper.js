@@ -3,9 +3,7 @@
  */
 
 
-
-
-var page_main = function (num, danxuanItemsAll, duoxuanItemsAll, panduanItemsAll) {
+var page_main = function () {
 
 
     var getView = function () {
@@ -14,10 +12,10 @@ var page_main = function (num, danxuanItemsAll, duoxuanItemsAll, panduanItemsAll
             var result = "<div>" +
                 "<p><span>" + index + "<span><span>" + l[1] + "</span></p>" +
                 "<p>" +
-                "<label><input name='" + l[0] + "' type='radio' value='A' />" + l[2] + "</label><br/>" +
-                "<label><input name='" + l[0] + "' type='radio' value='B' />" + l[3] + "</label><br/>" +
-                "<label><input name='" + l[0] + "' type='radio' value='C' />" + l[4] + "</label><br/>" +
-                "<label><input name='" + l[0] + "' type='radio' value='D' />" + l[5] + "</label><br/>" +
+                "<label><input name='" + l[0] + "' type='radio' value='A' />A: " + l[2] + "</label><br/>" +
+                "<label><input name='" + l[0] + "' type='radio' value='B' />B: " + l[3] + "</label><br/>" +
+                "<label><input name='" + l[0] + "' type='radio' value='C' />C: " + l[4] + "</label><br/>" +
+                "<label><input name='" + l[0] + "' type='radio' value='D' />D: " + l[5] + "</label><br/>" +
                 "</p>" +
                 "</div>";
             return result;
@@ -28,10 +26,10 @@ var page_main = function (num, danxuanItemsAll, duoxuanItemsAll, panduanItemsAll
             var result = "<div>" +
                 "<p><span>" + index + "<span><span>" + l[1] + "</span></p>" +
                 "<p>" +
-                "<label><input name='" + l[0] + "' type='checkbox' value='A' />" + l[2] + "</label><br/>" +
-                "<label><input name='" + l[0] + "' type='checkbox' value='B' />" + l[3] + "</label><br/>" +
-                "<label><input name='" + l[0] + "' type='checkbox' value='C' />" + l[4] + "</label><br/>" +
-                "<label><input name='" + l[0] + "' type='checkbox' value='D' />" + l[5] + "</label><br/>" +
+                "<label><input name='" + l[0] + "' type='checkbox' value='A' />A: " + l[2] + "</label><br/>" +
+                "<label><input name='" + l[0] + "' type='checkbox' value='B' />B: " + l[3] + "</label><br/>" +
+                "<label><input name='" + l[0] + "' type='checkbox' value='C' />C: " + l[4] + "</label><br/>" +
+                "<label><input name='" + l[0] + "' type='checkbox' value='D' />D: " + l[5] + "</label><br/>" +
                 "</p>" +
                 "</div>";
             return result;
@@ -52,7 +50,7 @@ var page_main = function (num, danxuanItemsAll, duoxuanItemsAll, panduanItemsAll
             var result = "<h2>单选  （20个 每个两分）</h2>";
 
             items.forEach(function (item, index) {
-                result += getDanxuanItemView(item, index);
+                result += getDanxuanItemView(item, index + 1);
             });
             return result;
         };
@@ -60,7 +58,7 @@ var page_main = function (num, danxuanItemsAll, duoxuanItemsAll, panduanItemsAll
             var result = "<h2>多选（20个 每个两分）</h2>";
 
             items.forEach(function (item, index) {
-                result += getDuoxuanItemView(item, index);
+                result += getDuoxuanItemView(item, index + 1);
             });
             return result;
         };
@@ -68,7 +66,7 @@ var page_main = function (num, danxuanItemsAll, duoxuanItemsAll, panduanItemsAll
             var result = "<h2>判断（20个 每个一分）</h2>";
 
             items.forEach(function (item, index) {
-                result += getPanduanItemView(item, index);
+                result += getPanduanItemView(item, index + 1);
             });
             return result;
         };
@@ -109,7 +107,7 @@ var page_main = function (num, danxuanItemsAll, duoxuanItemsAll, panduanItemsAll
                 }
             }
             result_index.sort();
-            console.log(result_index);
+            //console.log(result_index);
             var result = [];
             result_index.forEach(function (i) {
                 result.push(arr[i]);
@@ -131,8 +129,8 @@ var page_main = function (num, danxuanItemsAll, duoxuanItemsAll, panduanItemsAll
                 var number = l[0];
                 var right = l[6];
                 var val = $("input[name=" + number + "]:checked").val();
-                //console.log(right);
-                //console.log(val);
+                console.log(right);
+                console.log(val);
                 //console.log(typeof right);
                 //console.log(typeof val);
                 if (val && (val.trim() == right.trim())) {
@@ -148,7 +146,7 @@ var page_main = function (num, danxuanItemsAll, duoxuanItemsAll, panduanItemsAll
                 var l = item.split(',');
                 var number = l[0];
                 var right = l[6];
-                //console.log(right);
+                console.log(right);
                 var checkboxs = document.getElementsByName(number);
                 var c_arr = [];
                 for (var i = 0; i < checkboxs.length; i++) {
@@ -195,12 +193,47 @@ var page_main = function (num, danxuanItemsAll, duoxuanItemsAll, panduanItemsAll
         var danxuanScore = getDanxuanScore();
         var duoxuanScore = getDuoxuanScore();
         var panduanScore = getPanduanScore();
-        //console.log(danxuanScore);
-        //console.log(duoxuanScore);
+        console.log(danxuanScore);
+        console.log(duoxuanScore);
         console.log(panduanScore);
         return danxuanScore + duoxuanScore + panduanScore;
     };
 
+
+    var setTimer = function () {
+
+        var time_count = minute * 60;
+
+        var setShow = function () {
+            var s = time_count % 60;
+            var m = Math.floor(time_count / 60);
+            var show = m + "分" + s + "s";
+            document.getElementById("time").innerHTML = show;
+        };
+
+        function myTimer() {
+            //var d=new Date();
+            //var t=d.toLocaleTimeString();
+            time_count--;
+            setShow();
+            if (time_count <= 0) {
+                clearInterval(interval);
+                alert("time over");
+                go_to_page_result();
+                return;
+            }
+
+        }
+
+        setShow();
+        interval = setInterval(myTimer.bind(this), 1000);
+
+    };
+
+    var go_to_page_result = function () {
+        var score = getScore();
+        page_result(score);
+    };
 
     var init = function () {
 
@@ -209,9 +242,11 @@ var page_main = function (num, danxuanItemsAll, duoxuanItemsAll, panduanItemsAll
         document.getElementById('main').innerHTML = getView();
 
         document.getElementById('btn').onclick = function () {
-            var score = getScore();
-            page_result(score);
+            clearInterval(interval);
+            go_to_page_result();
         };
+
+        setTimer();
 
     };
 
@@ -231,27 +266,30 @@ var page_result = function (score) {
         document.getElementById('main').innerHTML = getView(score);
 
         document.getElementById('btn').onclick = function () {
-            location.reload();
+            page_main();
         };
     };
 
     init();
 };
 
+var danxuanItemsAll = null;
+var duoxuanItemsAll = null;
+var panduanItemsAll = null;
+var interval = null; // 定时器
+var num = 20; // 20道题
+var minute = 30;    // 30分钟
+
+
 window.onload = function () {
 
     var danxuan_csv = $.ajax({url: "danxuan.csv", async: false});
     var duoxuan_csv = $.ajax({url: "duoxuan.csv", async: false});
     var panduan_csv = $.ajax({url: "panduan.csv", async: false});
-    var danxuanItemsAll = danxuan_csv.responseText.split('\n');
-    var duoxuanItemsAll = duoxuan_csv.responseText.split('\n');
-    var panduanItemsAll = panduan_csv.responseText.split('\n');
+    danxuanItemsAll = danxuan_csv.responseText.split('\n');
+    duoxuanItemsAll = duoxuan_csv.responseText.split('\n');
+    panduanItemsAll = panduan_csv.responseText.split('\n');
 
-
-    var num = 5;
-
-
-    page_main(num, danxuanItemsAll, duoxuanItemsAll, panduanItemsAll);
-
+    page_main();
 
 };
