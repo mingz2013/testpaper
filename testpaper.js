@@ -8,14 +8,14 @@ var page_main = function () {
 
     var getView = function () {
         var getDanxuanItemView = function (item, index) {
-            var l = item.split(',');
+
             var result = "<div>" +
-                "<p><span>" + index + "<span><span>" + l[1] + "</span></p>" +
+                "<p><span>" + index + "<span><span>" + item[1] + "</span></p>" +
                 "<p>" +
-                "<label><input name='" + l[0] + "' type='radio' value='A' />A: " + l[2] + "</label><br/>" +
-                "<label><input name='" + l[0] + "' type='radio' value='B' />B: " + l[3] + "</label><br/>" +
-                "<label><input name='" + l[0] + "' type='radio' value='C' />C: " + l[4] + "</label><br/>" +
-                "<label><input name='" + l[0] + "' type='radio' value='D' />D: " + l[5] + "</label><br/>" +
+                "<label><input name='" + item[0] + "' type='radio' value='A' />A: " + item[2] + "</label><br/>" +
+                "<label><input name='" + item[0] + "' type='radio' value='B' />B: " + item[3] + "</label><br/>" +
+                "<label><input name='" + item[0] + "' type='radio' value='C' />C: " + item[4] + "</label><br/>" +
+                "<label><input name='" + item[0] + "' type='radio' value='D' />D: " + item[5] + "</label><br/>" +
                 "</p>" +
                 "<hr/>" +
                 "</div>";
@@ -23,26 +23,24 @@ var page_main = function () {
         };
 
         var getDuoxuanItemView = function (item, index) {
-            var l = item.split(',');
             var result = "<div>" +
-                "<p><span>" + index + "<span><span>" + l[1] + "</span></p>" +
+                "<p><span>" + index + "<span><span>" + item[1] + "</span></p>" +
                 "<p>" +
-                "<label><input name='" + l[0] + "' type='checkbox' value='A' />A: " + l[2] + "</label><br/>" +
-                "<label><input name='" + l[0] + "' type='checkbox' value='B' />B: " + l[3] + "</label><br/>" +
-                "<label><input name='" + l[0] + "' type='checkbox' value='C' />C: " + l[4] + "</label><br/>" +
-                "<label><input name='" + l[0] + "' type='checkbox' value='D' />D: " + l[5] + "</label><br/>" +
+                "<label><input name='" + item[0] + "' type='checkbox' value='A' />A: " + item[2] + "</label><br/>" +
+                "<label><input name='" + item[0] + "' type='checkbox' value='B' />B: " + item[3] + "</label><br/>" +
+                "<label><input name='" + item[0] + "' type='checkbox' value='C' />C: " + item[4] + "</label><br/>" +
+                "<label><input name='" + item[0] + "' type='checkbox' value='D' />D: " + item[5] + "</label><br/>" +
                 "</p>" +
                 "<hr/>" +
                 "</div>";
             return result;
         };
         var getPanduanItemView = function (item, index) {
-            var l = item.split(',');
             var result = "<div>" +
-                "<p><span>" + index + "<span><span>" + l[1] + "</span></p>" +
+                "<p><span>" + index + "<span><span>" + item[1] + "</span></p>" +
                 "<p>" +
-                "<label><input name='" + l[0] + "' type='radio' value='错' />错</label><br/>" +
-                "<label><input name='" + l[0] + "' type='radio' value='对' />对</label><br/>" +
+                "<label><input name='" + item[0] + "' type='radio' value='错' />错</label><br/>" +
+                "<label><input name='" + item[0] + "' type='radio' value='对' />对</label><br/>" +
                 "</p>" +
                 "<hr/>" +
                 "</div>";
@@ -128,9 +126,9 @@ var page_main = function () {
         var getDanxuanScore = function () {
             var score = 0;
             danxuanItems.forEach(function (item) {
-                var l = item.split(',');
-                var number = l[0];
-                var right = l[6];
+
+                var number = item[0];
+                var right = item[6];
                 var val = $("input[name=" + number + "]:checked").val();
                 console.log(right);
                 console.log(val);
@@ -146,9 +144,8 @@ var page_main = function () {
         var getDuoxuanScore = function () {
             var score = 0;
             duoxuanItems.forEach(function (item) {
-                var l = item.split(',');
-                var number = l[0];
-                var right = l[6];
+                var number = item[0];
+                var right = item[6];
                 console.log(right);
                 var checkboxs = document.getElementsByName(number);
                 var c_arr = [];
@@ -178,9 +175,8 @@ var page_main = function () {
         var getPanduanScore = function () {
             var score = 0;
             panduanItems.forEach(function (item) {
-                var l = item.split(',');
-                var number = l[0];
-                var right = l[2];
+                var number = item[0];
+                var right = item[2];
                 var val = $("input[name=" + number + "]:checked").val();
                 console.log(right);
                 console.log(val);
@@ -285,14 +281,29 @@ var minute = 30;    // 30分钟
 
 
 window.onload = function () {
+    Papa.parse("danxuan.csv", {
+        download: true,
+        complete: function (results) {
+            console.log(results);
+            danxuanItemsAll = results.data;
+            Papa.parse("duoxuan.csv", {
+                download: true,
+                complete: function (results) {
+                    console.log(results);
+                    duoxuanItemsAll = results.data;
+                    Papa.parse("panduan.csv", {
+                        download: true,
+                        complete: function (results) {
+                            console.log(results);
+                            panduanItemsAll = results.data;
+                            page_main();
+                        }
+                    });
+                }
+            });
 
-    var danxuan_csv = $.ajax({url: "danxuan.csv", async: false});
-    var duoxuan_csv = $.ajax({url: "duoxuan.csv", async: false});
-    var panduan_csv = $.ajax({url: "panduan.csv", async: false});
-    danxuanItemsAll = danxuan_csv.responseText.split('\n');
-    duoxuanItemsAll = duoxuan_csv.responseText.split('\n');
-    panduanItemsAll = panduan_csv.responseText.split('\n');
+        }
+    });
 
-    page_main();
 
 };
