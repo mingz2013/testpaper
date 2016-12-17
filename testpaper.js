@@ -17,6 +17,7 @@ var page_main = function () {
                 "<label><input name='" + l[0] + "' type='radio' value='C' />C: " + l[4] + "</label><br/>" +
                 "<label><input name='" + l[0] + "' type='radio' value='D' />D: " + l[5] + "</label><br/>" +
                 "</p>" +
+                "<hr/>" +
                 "</div>";
             return result;
         };
@@ -31,6 +32,7 @@ var page_main = function () {
                 "<label><input name='" + l[0] + "' type='checkbox' value='C' />C: " + l[4] + "</label><br/>" +
                 "<label><input name='" + l[0] + "' type='checkbox' value='D' />D: " + l[5] + "</label><br/>" +
                 "</p>" +
+                "<hr/>" +
                 "</div>";
             return result;
         };
@@ -42,6 +44,7 @@ var page_main = function () {
                 "<label><input name='" + l[0] + "' type='radio' value='错' />错</label><br/>" +
                 "<label><input name='" + l[0] + "' type='radio' value='对' />对</label><br/>" +
                 "</p>" +
+                "<hr/>" +
                 "</div>";
             return result;
         };
