@@ -25,6 +25,7 @@ publish: clean
 	cp $(BASEDIR)/index.html $(OUTPUTDIR)/
 	cp $(BASEDIR)/testpaper.js $(OUTPUTDIR)/
 	cp $(BASEDIR)/jquery-3.1.1.min.js $(OUTPUTDIR)/
+	cp $(BASEDIR)/papaparse.min.js $(OUTPUTDIR)/
 
 github: publish
 	ghp-import -m "make github" -b $(GITHUB_PAGES_BRANCH) $(OUTPUTDIR) -p
