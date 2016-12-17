@@ -195,9 +195,9 @@ var page_main = function () {
         var danxuanScore = getDanxuanScore();
         var duoxuanScore = getDuoxuanScore();
         var panduanScore = getPanduanScore();
-        console.log(danxuanScore);
-        console.log(duoxuanScore);
-        console.log(panduanScore);
+        //console.log(danxuanScore);
+        //console.log(duoxuanScore);
+        //console.log(panduanScore);
         return danxuanScore + duoxuanScore + panduanScore;
     };
 
