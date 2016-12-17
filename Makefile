@@ -21,10 +21,7 @@ clean:
 	[ ! -d $(OUTPUTDIR) ] || rm -rf $(OUTPUTDIR)/*
 
 publish: clean
-	cp -rf $(BASEDIR)/csv $(OUTPUTDIR)/
-	cp -rf $(BASEDIR)/src $(OUTPUTDIR)/
-	cp -rf $(BASEDIR)/lib $(OUTPUTDIR)/
-	cp $(BASEDIR)/index.html $(OUTPUTDIR)/
+	cp -rf $(BASEDIR)/app/* $(OUTPUTDIR)/
 
 github: publish
 	ghp-import -m "make github" -b $(GITHUB_PAGES_BRANCH) $(OUTPUTDIR) -p
