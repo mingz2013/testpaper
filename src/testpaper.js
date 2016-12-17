@@ -5,17 +5,20 @@
 
 var page_main = function () {
 
+    var replaceBrPipe = function(text){
+        return text.trim().replace('\r\n', '<br/>').replace('\r', '<br/>').replace('\n', '<br/>');
+    };
 
     var getView = function () {
         var getDanxuanItemView = function (item, index) {
 
             var result = "<div>" +
-                "<p><span>" + index + "<span><span>" + item[1] + "</span></p>" +
+                "<p><span>" + index + "<span><span>" + replaceBrPipe(item[1]) + "</span></p>" +
                 "<p>" +
-                "<label><input name='" + item[0] + "' type='radio' value='A' />A: " + item[2] + "</label><br/>" +
-                "<label><input name='" + item[0] + "' type='radio' value='B' />B: " + item[3] + "</label><br/>" +
-                "<label><input name='" + item[0] + "' type='radio' value='C' />C: " + item[4] + "</label><br/>" +
-                "<label><input name='" + item[0] + "' type='radio' value='D' />D: " + item[5] + "</label><br/>" +
+                "<label><input name='" + item[0] + "' type='radio' value='A' />A: " + replaceBrPipe(item[2]) + "</label><br/>" +
+                "<label><input name='" + item[0] + "' type='radio' value='B' />B: " + replaceBrPipe(item[3]) + "</label><br/>" +
+                "<label><input name='" + item[0] + "' type='radio' value='C' />C: " + replaceBrPipe(item[4]) + "</label><br/>" +
+                "<label><input name='" + item[0] + "' type='radio' value='D' />D: " + replaceBrPipe(item[5]) + "</label><br/>" +
                 "</p>" +
                 "<hr/>" +
                 "</div>";
@@ -24,12 +27,12 @@ var page_main = function () {
 
         var getDuoxuanItemView = function (item, index) {
             var result = "<div>" +
-                "<p><span>" + index + "<span><span>" + item[1] + "</span></p>" +
+                "<p><span>" + index + "<span><span>" + replaceBrPipe(item[1]) + "</span></p>" +
                 "<p>" +
-                "<label><input name='" + item[0] + "' type='checkbox' value='A' />A: " + item[2] + "</label><br/>" +
-                "<label><input name='" + item[0] + "' type='checkbox' value='B' />B: " + item[3] + "</label><br/>" +
-                "<label><input name='" + item[0] + "' type='checkbox' value='C' />C: " + item[4] + "</label><br/>" +
-                "<label><input name='" + item[0] + "' type='checkbox' value='D' />D: " + item[5] + "</label><br/>" +
+                "<label><input name='" + item[0] + "' type='checkbox' value='A' />A: " + replaceBrPipe(item[2]) + "</label><br/>" +
+                "<label><input name='" + item[0] + "' type='checkbox' value='B' />B: " + replaceBrPipe(item[3]) + "</label><br/>" +
+                "<label><input name='" + item[0] + "' type='checkbox' value='C' />C: " + replaceBrPipe(item[4]) + "</label><br/>" +
+                "<label><input name='" + item[0] + "' type='checkbox' value='D' />D: " + replaceBrPipe(item[5]) + "</label><br/>" +
                 "</p>" +
                 "<hr/>" +
                 "</div>";
@@ -37,7 +40,7 @@ var page_main = function () {
         };
         var getPanduanItemView = function (item, index) {
             var result = "<div>" +
-                "<p><span>" + index + "<span><span>" + item[1] + "</span></p>" +
+                "<p><span>" + index + "<span><span>" + replaceBrPipe(item[1]) + "</span></p>" +
                 "<p>" +
                 "<label><input name='" + item[0] + "' type='radio' value='错' />错</label><br/>" +
                 "<label><input name='" + item[0] + "' type='radio' value='对' />对</label><br/>" +
@@ -130,8 +133,8 @@ var page_main = function () {
                 var number = item[0];
                 var right = item[6];
                 var val = $("input[name=" + number + "]:checked").val();
-                console.log(right);
-                console.log(val);
+                //console.log(right);
+                //console.log(val);
                 //console.log(typeof right);
                 //console.log(typeof val);
                 if (val && (val.trim() == right.trim())) {
@@ -146,7 +149,7 @@ var page_main = function () {
             duoxuanItems.forEach(function (item) {
                 var number = item[0];
                 var right = item[6];
-                console.log(right);
+                //console.log(right);
                 var checkboxs = document.getElementsByName(number);
                 var c_arr = [];
                 for (var i = 0; i < checkboxs.length; i++) {
@@ -154,7 +157,7 @@ var page_main = function () {
                         c_arr.push(checkboxs[i].value);
                     }
                 }
-                console.log(c_arr);
+                //console.log(c_arr);
                 if (right.length == c_arr.length) {
                     var isRight = true;
                     for (var i = 0; i < right.length; i++) {
@@ -178,8 +181,8 @@ var page_main = function () {
                 var number = item[0];
                 var right = item[2];
                 var val = $("input[name=" + number + "]:checked").val();
-                console.log(right);
-                console.log(val);
+                //console.log(right);
+                //console.log(val);
                 //console.log(typeof right);
                 //console.log(typeof val);
                 if (val && (val.trim() == right.trim())) {
@@ -207,7 +210,7 @@ var page_main = function () {
             var s = time_count % 60;
             var m = Math.floor(time_count / 60);
             var show = m + "分" + s + "s";
-            document.getElementById("time").innerHTML = show;
+            $('#time').html(show);
         };
 
         function myTimer() {
@@ -238,7 +241,7 @@ var page_main = function () {
 
         randomData();
 
-        document.getElementById('main').innerHTML = getView();
+        $('#main').html(getView());
 
         document.getElementById('btn').onclick = function () {
             clearInterval(interval);
