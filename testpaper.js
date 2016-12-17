@@ -91,7 +91,7 @@ var page_main = function () {
         var result = "";
         result += getRightView();
         result += getLeftView();
-        result += "<button id='btn'>提交</button>";
+        result += "<button id='btn'>提交</button><br/>";
         return result;
     };
 
