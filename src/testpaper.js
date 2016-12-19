@@ -3,13 +3,14 @@
  */
 
 
-var page_main = function () {
+var PageMainController = function (PageResultController) {
 
-    var replaceBrPipe = function(text){
-        return text.trim().replace('\r\n', '<br/>').replace('\r', '<br/>').replace('\n', '<br/>');
-    };
 
-    var getView = function () {
+    var getView = function (danxuanItems, duoxuanItems, panduanItems) {
+        var replaceBrPipe = function (text) {
+            return text.trim().replace('\r\n', '<br/>').replace('\r', '<br/>').replace('\n', '<br/>');
+        };
+
         var getDanxuanItemView = function (item, index) {
 
             var result = "<div>" +
@@ -89,15 +90,23 @@ var page_main = function () {
             return result;
         };
 
-        var result = "";
-        result += getRightView();
-        result += getLeftView();
-        result += "<button id='btn'>提交</button><br/>";
-        return result;
+
+        return {
+            show: function (onClickCallback) {
+                var result = "";
+                result += getRightView();
+                result += getLeftView();
+                result += "<button id='btn'>提交</button><br/>";
+                $('#main').html(result);
+                document.getElementById('btn').onclick = onClickCallback;
+            }
+        }
+
+
     };
 
+    var getModel = function (danxuanItemsAll, duoxuanItemsAll, panduanItemsAll) {
 
-    var randomData = function () {
         var getRandomArray = function (arr) {
             var len = arr.length;
             if (len < num) {
@@ -119,166 +128,184 @@ var page_main = function () {
             return result;
         };
 
-        danxuanItems = getRandomArray(danxuanItemsAll);
-        duoxuanItems = getRandomArray(duoxuanItemsAll);
-        panduanItems = getRandomArray(panduanItemsAll);
+        return {
+            danxuanItems: getRandomArray(danxuanItemsAll),
+            duoxuanItems: getRandomArray(duoxuanItemsAll),
+            panduanItems: getRandomArray(panduanItemsAll)
+        }
     };
 
-    var getScore = function () {
 
-        var getDanxuanScore = function () {
-            var score = 0;
-            danxuanItems.forEach(function (item) {
+    var controller = function () {
 
-                var number = item[0];
-                var right = item[6];
-                var val = $("input[name=" + number + "]:checked").val();
-                //console.log(right);
-                //console.log(val);
-                //console.log(typeof right);
-                //console.log(typeof val);
-                if (val && (val.trim() == right.trim())) {
-                    score += 2;
-                }
-            });
-            //console.log(score);
-            return score;
-        };
-        var getDuoxuanScore = function () {
-            var score = 0;
-            duoxuanItems.forEach(function (item) {
-                var number = item[0];
-                var right = item[6];
-                //console.log(right);
-                var checkboxs = document.getElementsByName(number);
-                var c_arr = [];
-                for (var i = 0; i < checkboxs.length; i++) {
-                    if (checkboxs[i].checked == true) {
-                        c_arr.push(checkboxs[i].value);
-                    }
-                }
-                //console.log(c_arr);
-                if (right.length == c_arr.length) {
-                    var isRight = true;
-                    for (var i = 0; i < right.length; i++) {
-                        var c = right[i];
-                        if (c_arr.indexOf(c) == -1) {
-                            isRight = false;
-                        }
-                    }
-                    if (isRight) {
+        var getScore = function (danxuanItems, duoxuanItems, panduanItems) {
+
+            var getDanxuanScore = function () {
+                var score = 0;
+                danxuanItems.forEach(function (item) {
+
+                    var number = item[0];
+                    var right = item[6];
+                    var val = $("input[name=" + number + "]:checked").val();
+                    //console.log(right);
+                    //console.log(val);
+                    //console.log(typeof right);
+                    //console.log(typeof val);
+                    if (val && (val.trim() == right.trim())) {
                         score += 2;
                     }
+                });
+                //console.log(score);
+                return score;
+            };
+            var getDuoxuanScore = function () {
+                var score = 0;
+                duoxuanItems.forEach(function (item) {
+                    var number = item[0];
+                    var right = item[6];
+                    //console.log(right);
+                    var checkboxs = document.getElementsByName(number);
+                    var c_arr = [];
+                    for (var i = 0; i < checkboxs.length; i++) {
+                        if (checkboxs[i].checked == true) {
+                            c_arr.push(checkboxs[i].value);
+                        }
+                    }
+                    //console.log(c_arr);
+                    if (right.length == c_arr.length) {
+                        var isRight = true;
+                        for (var i = 0; i < right.length; i++) {
+                            var c = right[i];
+                            if (c_arr.indexOf(c) == -1) {
+                                isRight = false;
+                            }
+                        }
+                        if (isRight) {
+                            score += 2;
+                        }
+                    }
+
+                });
+                //console.log(score);
+                return score;
+            };
+            var getPanduanScore = function () {
+                var score = 0;
+                panduanItems.forEach(function (item) {
+                    var number = item[0];
+                    var right = item[2];
+                    var val = $("input[name=" + number + "]:checked").val();
+                    //console.log(right);
+                    //console.log(val);
+                    //console.log(typeof right);
+                    //console.log(typeof val);
+                    if (val && (val.trim() == right.trim())) {
+                        score += 2;
+                    }
+                });
+                //console.log(score);
+                return score;
+            };
+            var danxuanScore = getDanxuanScore();
+            var duoxuanScore = getDuoxuanScore();
+            var panduanScore = getPanduanScore();
+            //console.log(danxuanScore);
+            //console.log(duoxuanScore);
+            //console.log(panduanScore);
+            return danxuanScore + duoxuanScore + panduanScore;
+        };
+
+
+        var setTimer = function () {
+
+            var time_count = minute * 60;
+
+            var setShow = function () {
+                var s = time_count % 60;
+                var m = Math.floor(time_count / 60);
+                var show = m + "分" + s + "s";
+                $('#time').html(show);
+            };
+
+            function myTimer() {
+                //var d=new Date();
+                //var t=d.toLocaleTimeString();
+                time_count--;
+                setShow();
+                if (time_count <= 0) {
+                    clearInterval(interval);
+                    alert("time over");
+                    go_to_result_page();
                 }
 
-            });
-            //console.log(score);
-            return score;
-        };
-        var getPanduanScore = function () {
-            var score = 0;
-            panduanItems.forEach(function (item) {
-                var number = item[0];
-                var right = item[2];
-                var val = $("input[name=" + number + "]:checked").val();
-                //console.log(right);
-                //console.log(val);
-                //console.log(typeof right);
-                //console.log(typeof val);
-                if (val && (val.trim() == right.trim())) {
-                    score += 2;
-                }
-            });
-            //console.log(score);
-            return score;
-        };
-        var danxuanScore = getDanxuanScore();
-        var duoxuanScore = getDuoxuanScore();
-        var panduanScore = getPanduanScore();
-        //console.log(danxuanScore);
-        //console.log(duoxuanScore);
-        //console.log(panduanScore);
-        return danxuanScore + duoxuanScore + panduanScore;
-    };
-
-
-    var setTimer = function () {
-
-        var time_count = minute * 60;
-
-        var setShow = function () {
-            var s = time_count % 60;
-            var m = Math.floor(time_count / 60);
-            var show = m + "分" + s + "s";
-            $('#time').html(show);
-        };
-
-        function myTimer() {
-            //var d=new Date();
-            //var t=d.toLocaleTimeString();
-            time_count--;
-            setShow();
-            if (time_count <= 0) {
-                clearInterval(interval);
-                alert("time over");
-                go_to_page_result();
-                return;
             }
 
-        }
+            setShow();
+            var interval = setInterval(myTimer.bind(this), 1000);
+            return interval;
 
-        setShow();
-        interval = setInterval(myTimer.bind(this), 1000);
-
-    };
-
-    var go_to_page_result = function () {
-        var score = getScore();
-        page_result(score);
-    };
-
-    var init = function () {
-
-        randomData();
-
-        $('#main').html(getView());
-
-        document.getElementById('btn').onclick = function () {
-            clearInterval(interval);
-            go_to_page_result();
         };
 
-        setTimer();
 
+        var go_to_result_page = function(){
+            var score = getScore(model.danxuanItems, model.duoxuanItems, model.panduanItems);
+            PageResultController(score, function(){
+                controller();
+            });
+        };
+
+
+        var model = null;
+        var view = null;
+        var interval = null; // 定时器
+
+        var init = function(){
+            model = getModel(danxuanItemsAll, duoxuanItemsAll, panduanItemsAll);
+
+            view = getView(model.danxuanItems, model.duoxuanItems, model.panduanItems);
+
+            view.show(function () {
+                clearInterval(interval);
+                go_to_result_page();
+            });
+
+            interval = setTimer();
+        };
+
+        init();
     };
 
-    var danxuanItems, duoxuanItems, panduanItems = [];
-    init();
+    return controller();
 
 };
 
 
-var page_result = function (score) {
+var PageResultController = function (score, onClickCallback) {
     var getView = function (score) {
-        var result = "<div><p>得分:" + score + "</p><p><button id='btn'>再来一次</button></p></div>";
-        return result;
+
+        return{
+            show: function(){
+                var result = "<div><p>得分:" + score + "</p><p><button id='btn'>再来一次</button></p></div>";
+                document.getElementById('main').innerHTML = result;
+
+                document.getElementById('btn').onclick = onClickCallback;
+            }
+        }
+
     };
 
-    var init = function () {
-        document.getElementById('main').innerHTML = getView(score);
-
-        document.getElementById('btn').onclick = function () {
-            page_main();
-        };
+    var controller = function () {
+        var view = getView(score);
+        view.show();
     };
 
-    init();
+    return controller();
 };
 
 var danxuanItemsAll = null;
 var duoxuanItemsAll = null;
 var panduanItemsAll = null;
-var interval = null; // 定时器
+
 var num = 20; // 20道题
 var minute = 30;    // 30分钟
 
@@ -303,7 +330,7 @@ window.onload = function () {
                             //console.log(results);
                             panduanItemsAll = results.data;
                             $('#main').html('Loading...100%');
-                            page_main();
+                            PageMainController(PageResultController);
                         }
                     });
                 }
